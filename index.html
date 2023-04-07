@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat with ChatGPT</title>
+</head>
+<body>
+    <h1>Chat with ChatGPT</h1>
+    <form action="/message" method="post" onsubmit="sendMessage(event)">
+        <label for="input">Type your message:</label>
+        <input type="text" id="input" name="input">
+        <button type="submit">Send</button>
+    </form>
+    <h2>Results:</h2>
+    <div id="result"></div>
+    <script>
+        function sendMessage(event) {
+            event.preventDefault();
+            const input = document.getElementById("input").value;
+            fetch("/message", {
+                method: "POST",
+                body: JSON.stringify({ text: input }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.text())
+            .then(result => {
+                const resultElement = document.getElementById("result");
+                resultElement.innerHTML = result;
+            })
+            .catch(error => console.log(error));
+        }
+    </script>
+</body>
+</html>
